@@ -29,23 +29,17 @@ const Footer = () => {
                         </p>
                     </div>
 
-                    {/* Links 1 */}
+                    {/* Contact Info */}
                     <div>
-                        <h4 style={{ marginBottom: '1rem' }}>Product</h4>
+                        <h4 style={{ marginBottom: '1rem' }}>Contact Us</h4>
                         <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'var(--text-muted)' }}>
-                            <li><a href="#">Features</a></li>
-                            <li><a href="#">How it Works</a></li>
-                            <li><a href="#">Pricing</a></li>
-                        </ul>
-                    </div>
-
-                    {/* Links 2 */}
-                    <div>
-                        <h4 style={{ marginBottom: '1rem' }}>Company</h4>
-                        <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'var(--text-muted)' }}>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li>Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=team.stucharix@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">team.stucharix@gmail.com</a></li>
+                            <li>Phone: +1 (555) 123-4567</li>
+                            <li style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+                                <a href="https://www.instagram.com/stucharix/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-primary transition-colors">Instagram</a>
+                                <a href="https://x.com/stucharix" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-primary transition-colors">Twitter</a>
+                                <a href="#" aria-label="LinkedIn" className="hover:text-primary transition-colors">LinkedIn</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
