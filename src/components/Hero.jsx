@@ -1,7 +1,38 @@
-import React from 'react';
-import { ArrowRight, PlayCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, PlayCircle, LayoutDashboard } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabaseClient';
 
 const Hero = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // Check initial session
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setUser(session?.user ?? null);
+        });
+
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleLogin = async () => {
+        console.log('Login triggered');
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'github',
+            options: {
+                redirectTo: window.location.origin,
+            },
+        });
+        if (error) {
+            console.error('Login error:', error.message);
+        }
+    };
+
     return (
         <section className="hero">
             <div className="container">
@@ -43,9 +74,15 @@ const Hero = () => {
                         </p>
 
                         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                            <button className="btn btn-primary">
-                                Build My Study Goals <ArrowRight size={20} />
-                            </button>
+                            {user ? (
+                                <Link to="/dashboard" className="btn btn-primary">
+                                    Go to Dashboard <LayoutDashboard size={20} />
+                                </Link>
+                            ) : (
+                                <button onClick={handleLogin} className="btn btn-primary">
+                                    Build My Study Goals <ArrowRight size={20} />
+                                </button>
+                            )}
                             <button className="btn btn-secondary">
                                 <PlayCircle size={20} /> How Stucharix Works
                             </button>
