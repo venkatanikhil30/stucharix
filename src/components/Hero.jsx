@@ -116,12 +116,19 @@ const Hero = () => {
                             borderRadius: '2rem',
                             boxShadow: 'var(--shadow-soft)',
                             padding: '1rem',
-                            transform: 'rotate(-2deg)'
+                            transform: 'rotate(-2deg)',
+                            border: '4px solid var(--border)',
+                            transition: 'border-color 0.3s ease, transform 0.3s ease',
+                            overflow: 'hidden'
                         }}>
                             <img
-                                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                alt="Students studying together"
-                                style={{ borderRadius: '1.5rem', width: '100%' }}
+                                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Students collaborating digitally"
+                                style={{
+                                    borderRadius: '1.5rem',
+                                    width: '100%',
+                                    filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))'
+                                }}
                             />
 
                             {/* Floating Badge */}
@@ -136,23 +143,24 @@ const Hero = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '0.75rem',
-                                transform: 'rotate(2deg)'
+                                transform: 'rotate(2deg)',
+                                border: '2px solid var(--border)'
                             }}>
                                 <div style={{
                                     width: '40px',
                                     height: '40px',
-                                    background: '#dcfce7',
+                                    background: 'var(--accent)',
                                     borderRadius: '50%',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: '#16a34a'
+                                    color: 'var(--primary)'
                                 }}>
                                     ✅
                                 </div>
                                 <div>
                                     <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Daily Goal</p>
-                                    <p style={{ fontWeight: '700', fontSize: '0.875rem' }}>Completed!</p>
+                                    <p style={{ fontWeight: '700', fontSize: '0.875rem', color: 'var(--text-main)' }}>Completed!</p>
                                 </div>
                             </div>
                         </div>
