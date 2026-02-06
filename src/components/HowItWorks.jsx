@@ -13,7 +13,7 @@ const HowItWorks = () => {
                     {[
                         { icon: <Book />, title: "Choose Your Course", desc: "Select what you are studying." },
                         { icon: <UserPlus />, title: "Get Study Partners", desc: "Match with peers instantly." },
-                        { icon: <Flame fill="#ff4500" color="#ff4500" />, title: "Get Motivated Daily", desc: "Keep your streak alive." },
+                        { icon: <Flame />, title: "Get Motivated Daily", desc: "Keep your streak alive." },
                         { icon: <Target />, title: "Plan and Study Smarter", desc: "Ace your exams together." }
                     ].map((step, i) => (
                         <div key={i} style={{ textAlign: 'center', position: 'relative' }}>

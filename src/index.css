@@ -151,42 +151,6 @@ h6 {
   border-color: var(--primary);
 }
 
-/* Footer Link Interactions */
-.footer-link {
-  position: relative;
-  color: var(--text-light) !important;
-  text-decoration: none;
-  transition: color 0.25s ease;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.footer-link:hover {
-  color: #3b82f6 !important;
-  /* Accessible professional blue */
-}
-
-.footer-link::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 1.5px;
-  bottom: -2px;
-  left: 0;
-  background-color: #3b82f6;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
-  opacity: 0;
-}
-
-.footer-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-  opacity: 1;
-}
-
-
 .section {
   padding: 5rem 0;
 }

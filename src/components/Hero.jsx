@@ -1,38 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, PlayCircle, LayoutDashboard } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabaseClient';
+import React from 'react';
+import { ArrowRight, PlayCircle } from 'lucide-react';
 
 const Hero = () => {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        // Check initial session
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null);
-        });
-
-        // Listen for auth changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
-        });
-
-        return () => subscription.unsubscribe();
-    }, []);
-
-    const handleLogin = async () => {
-        console.log('Login triggered');
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'github',
-            options: {
-                redirectTo: window.location.origin,
-            },
-        });
-        if (error) {
-            console.error('Login error:', error.message);
-        }
-    };
-
     return (
         <section className="hero">
             <div className="container">
@@ -74,15 +43,9 @@ const Hero = () => {
                         </p>
 
                         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                            {user ? (
-                                <Link to="/dashboard" className="btn btn-primary">
-                                    Go to Dashboard <LayoutDashboard size={20} />
-                                </Link>
-                            ) : (
-                                <button onClick={handleLogin} className="btn btn-primary">
-                                    Build My Study Goals <ArrowRight size={20} />
-                                </button>
-                            )}
+                            <button className="btn btn-primary">
+                                Build My Study Goals <ArrowRight size={20} />
+                            </button>
                             <button className="btn btn-secondary">
                                 <PlayCircle size={20} /> How Stucharix Works
                             </button>
@@ -116,22 +79,45 @@ const Hero = () => {
                             borderRadius: '2rem',
                             boxShadow: 'var(--shadow-soft)',
                             padding: '1rem',
-                            transform: 'rotate(-2deg)',
-                            border: '4px solid var(--border)',
-                            transition: 'border-color 0.3s ease, transform 0.3s ease',
-                            overflow: 'hidden'
+                            transform: 'rotate(-2deg)'
                         }}>
                             <img
-                                src="/hero-illustration.png"
-                                alt="Modern digital study illustration"
-                                style={{
-                                    borderRadius: '1.5rem',
-                                    width: '100%',
-                                    filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))'
-                                }}
+                                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Students studying together"
+                                style={{ borderRadius: '1.5rem', width: '100%' }}
                             />
 
-
+                            {/* Floating Badge */}
+                            <div style={{
+                                position: 'absolute',
+                                bottom: '2rem',
+                                left: '-2rem',
+                                background: 'var(--surface)',
+                                padding: '1rem',
+                                borderRadius: '1rem',
+                                boxShadow: 'var(--shadow-lg)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.75rem',
+                                transform: 'rotate(2deg)'
+                            }}>
+                                <div style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    background: '#dcfce7',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: '#16a34a'
+                                }}>
+                                    ✅
+                                </div>
+                                <div>
+                                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Daily Goal</p>
+                                    <p style={{ fontWeight: '700', fontSize: '0.875rem' }}>Completed!</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
