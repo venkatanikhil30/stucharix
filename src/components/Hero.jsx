@@ -122,7 +122,7 @@ const Hero = () => {
                             overflow: 'hidden'
                         }}>
                             <img
-                                src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                src="/hero-illustration.png"
                                 alt="Modern digital study illustration"
                                 style={{
                                     borderRadius: '1.5rem',
