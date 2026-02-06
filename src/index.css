@@ -219,3 +219,46 @@ h6 {
   z-index: -1;
   opacity: 0.6;
 }
+
+/* Footer Link Styling */
+.footer-link {
+  position: relative;
+  color: var(--text-muted);
+  transition: color 0.25s ease;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #3b82f6;
+  /* Accessible blue for light mode */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.footer-link:hover {
+  color: #3b82f6;
+  /* Accessible blue for light mode */
+}
+
+.footer-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Dark mode footer link styling */
+.dark .footer-link::after {
+  background-color: #60a5fa;
+  /* Lighter blue for dark mode */
+}
+
+.dark .footer-link:hover {
+  color: #60a5fa;
+  /* Lighter blue for dark mode */
+}
