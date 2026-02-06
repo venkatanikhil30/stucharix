@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import React from 'react';
 import { Sparkles, Heart } from 'lucide-react';
 
 const Footer = () => {
@@ -55,75 +55,9 @@ const Footer = () => {
                     fontSize: '0.875rem'
                 }}>
                     <p>© 2024 Stucharix. Academic Project.</p>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.75rem',
-                        padding: '1rem 2rem',
-                        background: '#0a0f1e', // Dark navy background
-                        borderRadius: 'var(--radius-full)',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-                        border: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <span style={{ color: '#94a3b8', fontSize: '1rem', fontWeight: '500' }}>Made with</span>
-                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            {/* Particles Background */}
-                            {[...Array(6)].map((_, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ y: 0, opacity: 0, scale: 0 }}
-                                    animate={{
-                                        y: -40 - Math.random() * 40,
-                                        x: (Math.random() - 0.5) * 40,
-                                        opacity: [0, 1, 0],
-                                        scale: [0, 1, 0.5]
-                                    }}
-                                    transition={{
-                                        duration: 2 + Math.random(),
-                                        repeat: Infinity,
-                                        delay: i * 0.4,
-                                        ease: "easeOut"
-                                    }}
-                                    style={{
-                                        position: 'absolute',
-                                        color: i % 2 === 0 ? '#ff4d4d' : '#ffd700',
-                                        fontSize: i % 2 === 0 ? '10px' : '8px',
-                                        zIndex: 0,
-                                        filter: 'blur(0.5px)'
-                                    }}
-                                >
-                                    {i % 2 === 0 ? '❤️' : '✨'}
-                                </motion.div>
-                            ))}
-
-                            {/* Main Animated Heart */}
-                            <motion.div
-                                animate={{
-                                    y: [0, -15, 0],
-                                    scaleX: [1, 1.2, 0.9, 1],
-                                    scaleY: [1, 0.8, 1.1, 1]
-                                }}
-                                transition={{
-                                    duration: 1.5,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                style={{
-                                    fontSize: '2rem',
-                                    filter: 'drop-shadow(0 0 10px rgba(255, 77, 77, 0.6))',
-                                    cursor: 'default',
-                                    userSelect: 'none',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    zIndex: 1
-                                }}
-                            >
-                                <Heart size={32} fill="#ff4d4d" color="#ff4d4d" style={{ filter: 'brightness(1.2)' }} />
-                            </motion.div>
-                        </div>
-                        <span style={{ color: '#94a3b8', fontSize: '1rem', fontWeight: '500' }}>for students.</span>
-                    </div>
+                    <p style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        Made with <Heart size={16} fill="currentColor" /> for students.
+                    </p>
                 </div>
             </div>
         </footer>
