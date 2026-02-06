@@ -131,38 +131,7 @@ const Hero = () => {
                                 }}
                             />
 
-                            {/* Floating Badge */}
-                            <div style={{
-                                position: 'absolute',
-                                bottom: '2rem',
-                                left: '-2rem',
-                                background: 'var(--surface)',
-                                padding: '1rem',
-                                borderRadius: '1rem',
-                                boxShadow: 'var(--shadow-lg)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.75rem',
-                                transform: 'rotate(2deg)',
-                                border: '2px solid var(--border)'
-                            }}>
-                                <div style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    background: 'var(--accent)',
-                                    borderRadius: '50%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'var(--primary)'
-                                }}>
-                                    ✅
-                                </div>
-                                <div>
-                                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Daily Goal</p>
-                                    <p style={{ fontWeight: '700', fontSize: '0.875rem', color: 'var(--text-main)' }}>Completed!</p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
