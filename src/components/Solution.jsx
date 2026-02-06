@@ -21,7 +21,7 @@ const Solution = () => {
                             color: "var(--primary)"
                         },
                         {
-                            icon: <Zap size={32} />,
+                            icon: <Zap size={32} fill="currentColor" />,
                             title: "Daily Motivation",
                             desc: "Get daily quotes and streaks to keep your momentum going every single day.",
                             color: "#fbbf24"
