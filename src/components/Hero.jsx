@@ -122,8 +122,8 @@ const Hero = () => {
                             overflow: 'hidden'
                         }}>
                             <img
-                                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                alt="Students collaborating digitally"
+                                src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Modern digital study illustration"
                                 style={{
                                     borderRadius: '1.5rem',
                                     width: '100%',
