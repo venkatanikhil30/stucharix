@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import { Menu, X, Sparkles } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Sparkles, LogOut } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { supabase } from '../lib/supabaseClient';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -13,6 +17,54 @@ const Header = () => {
         { name: 'Services', path: '/services' },
         { name: 'Contact', path: '/contact' },
     ];
+
+    // Check for user session on mount
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                setUser(session?.user ?? null);
+            } catch (error) {
+                console.error('Error checking user session:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkUser();
+
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleLogin = async () => {
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: `${window.location.origin}/dashboard`
+                }
+            });
+            if (error) throw error;
+        } catch (error) {
+            console.error('Error logging in:', error.message);
+            alert('Failed to login. Please try again.');
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+            navigate('/');
+        } catch (error) {
+            console.error('Error logging out:', error.message);
+        }
+    };
 
     return (
         <nav style={{
@@ -67,7 +119,30 @@ const Header = () => {
                             {link.name}
                         </Link>
                     ))}
-                    <Link to="/contact" className="btn btn-primary">Join Now</Link>
+
+                    {!loading && (
+                        user ? (
+                            <>
+                                <Link to="/dashboard" className="btn btn-primary">Dashboard</Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="btn"
+                                    style={{
+                                        background: 'transparent',
+                                        border: '1px solid var(--border)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem'
+                                    }}
+                                >
+                                    <LogOut size={18} />
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <button onClick={handleLogin} className="btn btn-primary">Join Now</button>
+                        )
+                    )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
@@ -109,6 +184,18 @@ const Header = () => {
                             {link.name}
                         </Link>
                     ))}
+
+                    {!loading && (
+                        user ? (
+                            <>
+                                <Link to="/dashboard" onClick={() => setIsOpen(false)} className="btn btn-primary">Dashboard</Link>
+                                <button onClick={handleLogout} className="btn">Logout</button>
+                            </>
+                        ) : (
+                            <button onClick={handleLogin} className="btn btn-primary">Join Now</button>
+                        )
+                    )}
+
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span>Theme</span>
                         <ThemeToggle />

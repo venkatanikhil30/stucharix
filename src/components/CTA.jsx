@@ -1,7 +1,26 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabaseClient';
 
 const CTA = () => {
+    const navigate = useNavigate();
+
+    const handleJoin = async () => {
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: `${window.location.origin}/dashboard`
+                }
+            });
+            if (error) throw error;
+        } catch (error) {
+            console.error('Error logging in:', error.message);
+            alert('Failed to login. Please try again.');
+        }
+    };
+
     return (
         <section className="section" style={{ padding: '8rem 0' }}>
             <div className="container">
@@ -18,10 +37,18 @@ const CTA = () => {
                         Ready to find your perfect study buddy and ace your exams? It starts here.
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                        <button className="btn" style={{ background: 'var(--surface)', color: 'var(--primary)' }}>
+                        <button
+                            onClick={handleJoin}
+                            className="btn"
+                            style={{ background: 'var(--surface)', color: 'var(--primary)' }}
+                        >
                             Join Stucharix
                         </button>
-                        <button className="btn" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.4)' }}>
+                        <button
+                            onClick={() => navigate('/about')}
+                            className="btn"
+                            style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.4)' }}
+                        >
                             Learn More
                         </button>
                     </div>
