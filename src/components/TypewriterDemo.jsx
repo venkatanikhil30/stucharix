@@ -3,10 +3,25 @@ import { Typewriter } from "@/components/ui/typewriter"
 
 export function TypewriterDemo() {
     return (
-        <section className="section text-center" style={{ background: 'var(--surface)' }}>
+        <section className="section text-center" style={{ background: 'var(--color-surface)' }}>
             <div className="container">
-                <h2 className="text-3xl font-bold mb-8">What is Stucharix?</h2>
-                <div className="flex flex-col items-center justify-center text-2xl md:text-4xl font-light">
+                <h2 style={{
+                    fontSize: 'var(--text-h2)',
+                    marginBottom: '2rem',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: '700',
+                    color: 'var(--color-text-primary)'
+                }}>What is Stucharix?</h2>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2rem',
+                    fontFamily: 'var(--font-body)',
+                    fontWeight: '500',
+                    color: 'var(--color-text-primary)'
+                }}>
                     <p className="whitespace-pre-wrap">
                         <span>{"Stucharix is the place to "}</span>
                         <Typewriter
@@ -18,7 +33,8 @@ export function TypewriterDemo() {
                                 "grow together."
                             ]}
                             speed={70}
-                            className="text-primary font-bold"
+                            className="font-bold"
+                            style={{ color: 'var(--color-accent)' }}
                             waitTime={1500}
                             deleteSpeed={40}
                             cursorChar={"_"}
@@ -27,7 +43,7 @@ export function TypewriterDemo() {
                 </div>
             </div>
         </section>
-    )
+    );
 }
 
 export default TypewriterDemo;

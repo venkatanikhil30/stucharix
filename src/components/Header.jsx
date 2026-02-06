@@ -18,115 +18,154 @@ const Header = () => {
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
+            if (_event === 'SIGNED_IN') setIsOpen(false);
         });
 
         return () => subscription.unsubscribe();
     }, []);
 
     const handleLogin = async () => {
-        console.log('Login triggered');
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'github',
-            options: {
-                redirectTo: window.location.origin,
-            },
-        });
-        if (error) {
-            console.error('Login error:', error.message);
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: window.location.origin,
+                },
+            });
+            if (error) throw error;
+        } catch (error) {
+            console.error('Error logging in:', error.message);
         }
     };
 
     const handleLogout = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+        } catch (error) {
             console.error('Error logging out:', error.message);
         }
     };
 
     const navLinks = [
-        { name: 'Home', path: '/' },
-        { name: 'About', path: '/about' },
-        { name: 'Services', path: '/services' },
-        { name: 'Contact', path: '/contact' },
+        { name: "Features", href: "#features" },
+        { name: "Benefits", href: "#benefits" },
+        { name: "How it Works", href: "#how-it-works" },
     ];
 
     return (
-        <nav style={{
+        <header style={{
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100%',
-            background: 'var(--navbar-bg)',
-            backdropFilter: 'blur(10px)',
+            right: 0,
             zIndex: 1000,
-            borderBottom: '1px solid var(--border)',
-            transition: 'background 0.3s ease, border-color 0.3s ease'
+            background: 'color-mix(in srgb, var(--color-bg) 80%, transparent)',
+            backdropFilter: 'blur(12px)',
+            borderBottom: '1px solid var(--color-border)',
+            height: '80px',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'all 0.3s ease'
         }}>
-            <div className="container" style={{
+            <nav className="container" style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                height: '80px'
             }}>
                 {/* Logo */}
-                <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                     <div style={{
                         width: '40px',
                         height: '40px',
-                        background: 'var(--primary)',
+                        background: 'var(--color-accent)',
                         borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: 'white'
+                        color: 'white',
+                        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
                     }}>
                         <Sparkles size={24} />
                     </div>
-                    <span style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-main)' }}>
-                        Stucharix
-                    </span>
+                    <span style={{
+                        fontSize: '1.5rem',
+                        fontWeight: '700',
+                        fontFamily: 'var(--font-heading)',
+                        color: 'var(--color-text-primary)'
+                    }}>Stucharix</span>
                 </Link>
 
-                {/* Desktop Menu */}
-                <div className="desktop-menu" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                    <ThemeToggle />
+                {/* Desktop Navigation */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }} className="hidden md:flex">
                     {navLinks.map((link) => (
-                        <Link
+                        <a
                             key={link.name}
-                            to={link.path}
+                            href={link.href}
                             style={{
+                                color: 'var(--color-text-secondary)',
                                 fontWeight: '500',
-                                color: location.pathname === link.path ? 'var(--primary)' : 'var(--text-muted)',
-                                transition: 'color 0.2s ease'
+                                fontSize: '0.925rem'
                             }}
+                            className="footer-link"
                         >
                             {link.name}
-                        </Link>
+                        </a>
                     ))}
 
+                    <div style={{ height: '24px', width: '1px', background: 'var(--color-border)' }}></div>
+
+                    <ThemeToggle />
+
                     {user ? (
-                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                            <Link to="/dashboard" className="btn btn-secondary" style={{ padding: '0.5rem 1rem' }}>
-                                <LayoutDashboard size={18} /> Dashboard
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <Link
+                                to="/dashboard"
+                                className="btn btn-secondary"
+                                style={{ padding: '0.6rem 1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                            >
+                                <LayoutDashboard size={18} />
+                                Dashboard
                             </Link>
-                            <button onClick={handleLogout} className="btn btn-primary" style={{ padding: '0.5rem 1rem', background: 'var(--text-muted)' }}>
+                            <button
+                                onClick={handleLogout}
+                                style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    color: 'var(--color-text-secondary)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.5rem',
+                                    cursor: 'pointer'
+                                }}
+                                className="footer-link"
+                            >
                                 <LogOut size={18} />
+                                Logout
                             </button>
                         </div>
                     ) : (
-                        <button type="button" onClick={handleLogin} className="btn btn-primary">Join Now</button>
+                        <button
+                            type="button"
+                            onClick={handleLogin}
+                            className="btn btn-primary"
+                            style={{ padding: '0.75rem 1.75rem' }}
+                        >
+                            Join Now
+                        </button>
                     )}
                 </div>
 
-                {/* Mobile Menu Toggle */}
+                {/* Mobile Toggle */}
                 <button
-                    className="mobile-toggle"
+                    className="md:hidden"
                     onClick={() => setIsOpen(!isOpen)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-main)' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-primary)' }}
                 >
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
-            </div>
+            </nav>
 
             {/* Mobile Menu */}
             {isOpen && (
@@ -135,8 +174,8 @@ const Header = () => {
                     top: '80px',
                     left: 0,
                     width: '100%',
-                    background: 'var(--surface)',
-                    borderBottom: '1px solid var(--border)',
+                    background: 'var(--color-bg)',
+                    borderBottom: '1px solid var(--color-border)',
                     padding: '2rem',
                     display: 'flex',
                     flexDirection: 'column',
@@ -176,7 +215,7 @@ const Header = () => {
                     )}
                 </div>
             )}
-        </nav>
+        </header>
     );
 };
 
