@@ -1,11 +1,43 @@
-import React, { useState } from 'react';
-import { Menu, X, Sparkles } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Sparkles, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { supabase } from '../lib/supabaseClient';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Check initial session
+        supabase.auth.getSession().then(({ data }) => {
+            setUser(data.session?.user ?? null);
+            setLoading(false);
+        });
+
+        // Listen for auth changes
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => listener.subscription.unsubscribe();
+    }, []);
+
+    const handleLogin = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: 'github',
+            options: {
+                redirectTo: window.location.origin + '/dashboard',
+            },
+        });
+    };
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+    };
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -67,7 +99,21 @@ const Header = () => {
                             {link.name}
                         </Link>
                     ))}
-                    <Link to="/contact" className="btn btn-primary">Join Now</Link>
+
+                    {!loading && (
+                        user ? (
+                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                <Link to="/dashboard" className="btn btn-secondary" style={{ padding: '0.5rem 1rem' }}>
+                                    <LayoutDashboard size={18} /> Dashboard
+                                </Link>
+                                <button onClick={handleLogout} className="btn btn-primary" style={{ padding: '0.5rem 1rem', background: 'var(--text-muted)' }}>
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        ) : (
+                            <button onClick={handleLogin} className="btn btn-primary">Join Now</button>
+                        )
+                    )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
@@ -113,6 +159,21 @@ const Header = () => {
                         <span>Theme</span>
                         <ThemeToggle />
                     </div>
+
+                    {!loading && (
+                        user ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <Link to="/dashboard" onClick={() => setIsOpen(false)} className="btn btn-secondary" style={{ width: '100%' }}>
+                                    <LayoutDashboard size={18} /> Dashboard
+                                </Link>
+                                <button onClick={() => { handleLogout(); setIsOpen(false); }} className="btn btn-primary" style={{ width: '100%', background: 'var(--text-muted)' }}>
+                                    <LogOut size={18} /> Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <button onClick={() => { handleLogin(); setIsOpen(false); }} className="btn btn-primary">Join Now</button>
+                        )
+                    )}
                 </div>
             )}
         </nav>
