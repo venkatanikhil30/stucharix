@@ -3,65 +3,42 @@ import { CheckCircle2 } from 'lucide-react';
 
 const Benefits = () => {
     return (
-        <section className="section" style={{ background: 'var(--color-bg)' }}>
+        <section className="section" style={{ background: 'var(--background)' }}>
             <div className="container">
-                <div className="grid grid-2" style={{ alignItems: 'center', gap: '5rem' }}>
+                <div className="grid grid-2" style={{ alignItems: 'center', gap: '4rem' }}>
 
                     {/* Image Side */}
-                    <div style={{ order: 1 }}>
+                    <div style={{ order: 1 }}> {/* Can change order for mobile via media queries ideally, but default here */}
                         <div style={{
-                            background: 'color-mix(in srgb, var(--color-accent) 8%, var(--color-surface))',
-                            borderRadius: '2.5rem',
-                            padding: '1.5rem',
-                            boxShadow: 'var(--shadow-lg)',
-                            border: '1px solid var(--color-border)',
-                            transition: 'transform 0.3s ease'
+                            background: 'linear-gradient(135deg, var(--accent), var(--surface))',
+                            borderRadius: '2rem',
+                            padding: '2rem',
+                            boxShadow: 'var(--shadow-md)'
                         }}>
                             <img
                                 src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                                 alt="Students Happy"
-                                style={{ borderRadius: '1.75rem', width: '100%', display: 'block' }}
+                                style={{ borderRadius: '1.5rem', width: '100%', boxShadow: 'var(--shadow-lg)' }}
                             />
                         </div>
                     </div>
 
                     {/* Content Side */}
                     <div style={{ order: 2 }}>
-                        <h2 style={{
-                            fontSize: 'var(--text-h2)',
-                            marginBottom: '1.5rem',
-                            fontFamily: 'var(--font-heading)',
-                            color: 'var(--color-text-primary)',
-                            lineHeight: 'var(--lh-heading)',
-                            fontWeight: '700'
-                        }}>Why Join Stucharix?</h2>
-                        <p style={{
-                            fontSize: '1.125rem',
-                            color: 'var(--color-text-secondary)',
-                            marginBottom: '2.5rem',
-                            lineHeight: 'var(--lh-body)',
-                            fontFamily: 'var(--font-body)'
-                        }}>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Why Join Stucharix?</h2>
+                        <p style={{ fontSize: '1.125rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
                             Stop struggling alone. Join a community that understands your goals and helps you achieve them.
                         </p>
 
-                        <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                        <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             {[
                                 "Find Focused Study Partners",
                                 "Stay Motivated Everyday",
                                 "Organize Your Study Goals",
                                 "Build Long-Term Consistency"
                             ].map((benefit, i) => (
-                                <li key={i} style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem',
-                                    fontSize: '1.125rem',
-                                    color: 'var(--color-text-primary)',
-                                    fontFamily: 'var(--font-body)',
-                                    fontWeight: '500'
-                                }}>
-                                    <CheckCircle2 color="var(--color-success)" size={24} />
+                                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '1.125rem' }}>
+                                    <CheckCircle2 color="var(--success)" size={24} />
                                     {benefit}
                                 </li>
                             ))}

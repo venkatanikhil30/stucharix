@@ -3,27 +3,20 @@ import { Frown, BookOpen, Clock } from 'lucide-react';
 
 const Problem = () => {
     return (
-        <section className="section" style={{ background: 'var(--color-surface)' }}>
+        <section className="section" style={{ background: 'var(--surface)' }}>
             <div className="container">
                 <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
                     <span style={{
                         color: '#ef4444',
-                        background: 'rgba(239, 68, 68, 0.1)',
-                        padding: '0.4rem 1rem',
-                        borderRadius: 'var(--radius-full)',
-                        fontSize: 'var(--text-caption)',
-                        fontWeight: '600',
-                        fontFamily: 'var(--font-body)'
+                        background: 'var(--accent)',
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '99px',
+                        fontSize: '0.875rem',
+                        fontWeight: '600'
                     }}>
                         The Struggle is Real
                     </span>
-                    <h2 style={{
-                        fontSize: 'var(--text-h2)',
-                        marginTop: '1.5rem',
-                        fontFamily: 'var(--font-heading)',
-                        fontWeight: '700',
-                        color: 'var(--color-text-primary)'
-                    }}>Studying Shouldn’t Feel This Hard</h2>
+                    <h2 style={{ fontSize: '2.5rem', marginTop: '1rem' }}>Studying Shouldn’t Feel This Hard</h2>
                 </div>
 
                 <div className="grid grid-3">
@@ -46,36 +39,25 @@ const Problem = () => {
                     ].map((item, index) => (
                         <div key={index} className="card" style={{
                             textAlign: 'center',
-                            border: '1px solid var(--color-border)',
-                            boxShadow: 'var(--shadow-sm)',
-                            background: 'var(--color-bg)',
-                            padding: '2.5rem'
+                            border: '1px solid var(--border)',
+                            boxShadow: 'none',
+                            background: 'var(--background)'
                         }}>
                             <div style={{
-                                margin: '0 auto 1.75rem',
+                                margin: '0 auto 1.5rem',
                                 width: '64px',
                                 height: '64px',
-                                background: 'rgba(239, 68, 68, 0.08)',
+                                background: '#fee2e2',
                                 color: '#ef4444',
-                                borderRadius: '1.25rem',
+                                borderRadius: '50%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
                                 {item.icon}
                             </div>
-                            <h3 style={{
-                                marginBottom: '1rem',
-                                fontSize: '1.5rem',
-                                fontFamily: 'var(--font-heading)',
-                                fontWeight: '600',
-                                color: 'var(--color-text-primary)'
-                            }}>{item.title}</h3>
-                            <p style={{
-                                color: 'var(--color-text-secondary)',
-                                fontFamily: 'var(--font-body)',
-                                lineHeight: 'var(--lh-body)'
-                            }}>{item.desc}</p>
+                            <h3 style={{ marginBottom: '0.75rem', fontSize: '1.25rem' }}>{item.title}</h3>
+                            <p style={{ color: 'var(--text-muted)' }}>{item.desc}</p>
                         </div>
                     ))}
                 </div>

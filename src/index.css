@@ -1,45 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Font Families */
-  --font-heading: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Color Palette */
+  --primary: #6366f1;
+  /* Indigo 500 */
+  --primary-hover: #4f46e5;
+  /* Indigo 600 */
+  --secondary: #8b5cf6;
+  /* Violet 500 */
+  --accent: #e0e7ff;
+  /* Indigo 100 */
+  --background: #f8fafc;
+  /* Slate 50 */
+  --surface: #ffffff;
+  --text-main: #1e293b;
+  /* Slate 800 */
+  --text-muted: #64748b;
+  /* Slate 500 */
+  --text-light: #94a3b8;
+  /* Slate 400 */
+  --success: #10b981;
+  --border: #e2e8f0;
+  --navbar-bg: rgba(255, 255, 255, 0.8);
 
-  /* Typography Scale */
-  --text-h1: clamp(48px, 5vw, 56px);
-  --text-h2: 36px;
-  --text-h3: 28px;
-  --text-body: 16px;
-  --text-caption: 14px;
-
-  /* Line Heights */
-  --lh-heading: 1.2;
-  --lh-body: 1.5;
-
-  /* Light Mode Colors */
-  --color-bg: #f9fafb;
-  --color-surface: #ffffff;
-  --color-text-primary: #1f2937;
-  --color-text-secondary: #475569;
-  --color-accent: #3b82f6;
-  --color-accent-hover: #2563eb;
-  --color-success: #10b981;
-  --color-border: #e2e8f0;
-
-  /* Backwards Compatibility (Legacy Vars) */
-  --background: var(--color-bg);
-  --surface: var(--color-surface);
-  --text-main: var(--color-text-primary);
-  --text-muted: var(--color-text-secondary);
-  --text-light: var(--color-text-secondary);
-  --primary: var(--color-accent);
-  --primary-hover: var(--color-accent-hover);
-  --border: var(--color-border);
-  --accent: color-mix(in srgb, var(--color-accent) 10%, transparent);
 
   /* Spacing */
   --spacing-xs: 0.5rem;
@@ -58,19 +43,23 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-soft: 0 20px 25px -5px rgb(59 130 246 / 0.1), 0 8px 10px -6px rgb(59 130 246 / 0.05);
+  --shadow-soft: 0 20px 25px -5px rgb(99 102 241 / 0.15), 0 8px 10px -6px rgb(99 102 241 / 0.1);
 }
 
-/* Theme Switching Logic */
-.dark,
-[data-theme="dark"] {
-  --color-bg: #0f172a;
-  --color-surface: #111827;
-  --color-text-primary: #e5e7eb;
-  --color-text-secondary: #cbd5e1;
-  --color-accent: #60a5fa;
-  --color-accent-hover: #93c5fd;
-  --color-border: #1e293b;
+.dark {
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --secondary: #a78bfa;
+  --accent: #1e1b4b;
+  --background: #0f172a;
+  --surface: #1e293b;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  --success: #10b981;
+  --border: #334155;
+  --navbar-bg: rgba(15, 23, 42, 0.8);
+
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
@@ -82,37 +71,15 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
-  font-family: var(--font-body);
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-  line-height: var(--lh-body);
-  font-size: var(--text-body);
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--background);
+  color: var(--text-main);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-}
-
-h1,
-h2,
-h3 {
-  font-family: var(--font-heading);
-  line-height: var(--lh-heading);
-  color: var(--color-text-primary);
-  font-weight: 700;
-}
-
-h1 {
-  font-size: var(--text-h1);
-}
-
-h2 {
-  font-size: var(--text-h2);
-}
-
-h3 {
-  font-size: var(--text-h3);
 }
 
 ul {
@@ -121,13 +88,7 @@ ul {
 
 a {
   text-decoration: none;
-  color: var(--color-accent);
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--color-accent-hover);
-  text-decoration: underline;
+  color: inherit;
 }
 
 img {
@@ -135,6 +96,8 @@ img {
   display: block;
 }
 
+h1,
+h2,
 h3,
 h4,
 h5,
