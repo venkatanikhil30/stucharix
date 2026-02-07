@@ -1,124 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
-import { Navigate } from 'react-router-dom';
-import { User, Mail, Calendar, Settings, Bell, BookOpen } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabaseClient";
+import { Link } from "react-router-dom";
 
-const Dashboard = () => {
-    const [user, setUser] = useState(null);
+export default function Dashboard() {
+    const [groups, setGroups] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null);
+        async function loadGroups() {
+            const { data, error } = await supabase
+                .from("group_members")
+                .select(`
+          role,
+          study_groups (
+            id,
+            name,
+            description,
+            created_at
+          )
+        `);
+
+            if (!error && data) {
+                setGroups(data);
+            }
+
             setLoading(false);
-        });
+        }
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
-        });
-
-        return () => subscription.unsubscribe();
+        loadGroups();
     }, []);
 
     if (loading) {
-        return (
-            <div className="flex-center" style={{ height: '100vh', background: 'var(--background)' }}>
-                <div className="text-primary font-bold">Loading your success...</div>
-            </div>
-        );
-    }
-
-    if (!user) {
-        return <Navigate to="/" replace />;
+        return <p className="p-6">Loading…</p>;
     }
 
     return (
-        <div className="section" style={{ background: 'var(--background)', minHeight: 'calc(100vh - 80px)' }}>
-            <div className="container">
-                {/* Welcome Header */}
-                <div style={{ marginBottom: '3rem' }}>
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
-                        Welcome back, <span className="text-primary">{user.user_metadata?.full_name || user.email?.split('@')[0]}</span>!
-                    </h1>
-                    <p className="text-muted">You're one step closer to your goals today.</p>
-                </div>
+        <div className="p-6 max-w-3xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold">My Study Groups</h1>
 
-                <div className="grid grid-3">
-                    {/* Profile Card */}
-                    <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            <div style={{
-                                width: '60px',
-                                height: '60px',
-                                borderRadius: '50%',
-                                background: 'var(--accent)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                                <User className="text-primary" size={32} />
-                            </div>
-                            <div>
-                                <h3 style={{ fontSize: '1.25rem' }}>{user.user_metadata?.full_name || 'Student'}</h3>
-                                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{user.email}</p>
-                            </div>
-                        </div>
-                        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1rem', marginTop: '0.5rem' }}>
-                            <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'flex-start' }}>
-                                <Settings size={18} /> Account Settings
-                            </button>
-                        </div>
-                    </div>
+                {/* 👇 CREATE GROUP BUTTON */}
+                <Link
+                    to="/create-group"
+                    className="bg-black text-white px-4 py-2 rounded"
+                >
+                    + Create Group
+                </Link>
+            </div>
 
-                    {/* Stats/Goals */}
-                    <div className="card">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                            <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                <BookOpen size={20} className="text-primary" /> Active Goals
-                            </h3>
-                            <span style={{
-                                background: 'var(--accent)',
-                                color: 'var(--primary)',
-                                padding: '0.25rem 0.75rem',
-                                borderRadius: '1rem',
-                                fontSize: '0.75rem',
-                                fontWeight: '700'
-                            }}>3 New</span>
-                        </div>
-                        <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <li style={{ fontSize: '0.875rem', display: 'flex', justifyContent: 'space-between' }}>
-                                <span>Complete Math assignment</span>
-                                <span className="text-muted">60%</span>
-                            </li>
-                            <li style={{ fontSize: '0.875rem', display: 'flex', justifyContent: 'space-between' }}>
-                                <span>Read Biology Chapter 4</span>
-                                <span className="text-muted">Pending</span>
-                            </li>
-                            <li style={{ fontSize: '0.875rem', display: 'flex', justifyContent: 'space-between' }}>
-                                <span>Group study session</span>
-                                <span className="text-primary">Starts in 2h</span>
-                            </li>
-                        </ul>
-                    </div>
+            {groups.length === 0 && (
+                <p>No groups yet. Create your first one!</p>
+            )}
 
-                    {/* Notifications */}
-                    <div className="card">
-                        <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                            <Bell size={20} className="text-primary" /> Recent Updates
-                        </h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <div style={{ padding: '0.75rem', background: 'var(--accent)', borderRadius: 'var(--radius-sm)', fontSize: '0.875rem' }}>
-                                <strong>Success!</strong> Your account is now synced with GitHub.
-                            </div>
-                            <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', fontSize: '0.875rem', border: '1px solid var(--border)' }}>
-                                New study buddy match found for Computer Science!
-                            </div>
+            <div className="space-y-4">
+                {groups.map((g) => (
+                    <Link key={g.study_groups.id} to={`/groups/${g.study_groups.id}`}>
+                        <div
+                            className="border p-4 rounded hover:bg-gray-50 cursor-pointer"
+                        >
+                            <h2 className="font-semibold text-lg">
+                                {g.study_groups.name}
+                            </h2>
+                            <p className="text-sm text-gray-600">
+                                {g.study_groups.description}
+                            </p>
+                            <p className="text-xs mt-1 text-gray-400">
+                                Role: {g.role}
+                            </p>
                         </div>
-                    </div>
-                </div>
+                    </Link>
+                ))}
             </div>
         </div>
     );
-};
-
-export default Dashboard;
+}

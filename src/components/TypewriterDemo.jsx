@@ -7,7 +7,7 @@ export function TypewriterDemo() {
             <div className="container">
                 <h2 className="text-3xl font-bold mb-8">What is Stucharix?</h2>
                 <div className="flex flex-col items-center justify-center text-2xl md:text-4xl font-light">
-                    <p className="whitespace-pre-wrap">
+                    <div className="whitespace-pre-wrap">
                         <span>{"Stucharix is the place to "}</span>
                         <Typewriter
                             text={[
@@ -23,7 +23,7 @@ export function TypewriterDemo() {
                             deleteSpeed={40}
                             cursorChar={"_"}
                         />
-                    </p>
+                    </div>
                 </div>
             </div>
         </section>
